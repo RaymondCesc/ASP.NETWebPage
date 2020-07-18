@@ -1,0 +1,403 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TravelExpertsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BookingDetails">
+          <Key>
+            <PropertyRef Name="BookingDetailId" />
+          </Key>
+          <Property Name="BookingDetailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItineraryNo" Type="float" />
+          <Property Name="TripStart" Type="datetime" />
+          <Property Name="TripEnd" Type="datetime" />
+          <Property Name="Description" Type="nvarchar" MaxLength="255" />
+          <Property Name="Destination" Type="nvarchar" MaxLength="255" />
+          <Property Name="BasePrice" Type="money" />
+          <Property Name="AgencyCommission" Type="money" />
+          <Property Name="BookingId" Type="int" />
+          <Property Name="RegionId" Type="nvarchar" MaxLength="5" />
+          <Property Name="ClassId" Type="nvarchar" MaxLength="5" />
+          <Property Name="FeeId" Type="nvarchar" MaxLength="10" />
+          <Property Name="ProductSupplierId" Type="int" />
+        </EntityType>
+        <EntityType Name="Bookings">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BookingDate" Type="datetime" />
+          <Property Name="BookingNo" Type="nvarchar" MaxLength="50" />
+          <Property Name="TravelerCount" Type="float" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="TripTypeId" Type="nvarchar" MaxLength="1" />
+          <Property Name="PackageId" Type="int" />
+        </EntityType>
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustFirstName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="CustLastName" Type="nvarchar" MaxLength="25" Nullable="false" />
+          <Property Name="CustAddress" Type="nvarchar" MaxLength="75" Nullable="false" />
+          <Property Name="CustCity" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustProv" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="CustPostal" Type="nvarchar" MaxLength="7" Nullable="false" />
+          <Property Name="CustCountry" Type="nvarchar" MaxLength="25" />
+          <Property Name="CustHomePhone" Type="nvarchar" MaxLength="20" />
+          <Property Name="CustBusPhone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CustEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="AgentId" Type="int" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <EntityType Name="Fees">
+          <Key>
+            <PropertyRef Name="FeeId" />
+          </Key>
+          <Property Name="FeeId" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="FeeName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FeeAmt" Type="money" Nullable="false" />
+          <Property Name="FeeDesc" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Packages">
+          <Key>
+            <PropertyRef Name="PackageId" />
+          </Key>
+          <Property Name="PackageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PkgName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PkgStartDate" Type="datetime" />
+          <Property Name="PkgEndDate" Type="datetime" />
+          <Property Name="PkgDesc" Type="nvarchar" MaxLength="50" />
+          <Property Name="PkgBasePrice" Type="money" Nullable="false" />
+          <Property Name="PkgAgencyCommission" Type="money" />
+        </EntityType>
+        <Association Name="Bookings_FK00">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bookings_FK01">
+          <End Role="Packages" Type="Self.Packages" Multiplicity="0..1" />
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Packages">
+              <PropertyRef Name="PackageId" />
+            </Principal>
+            <Dependent Role="Bookings">
+              <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingDetails_Bookings">
+          <End Role="Bookings" Type="Self.Bookings" Multiplicity="0..1" />
+          <End Role="BookingDetails" Type="Self.BookingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bookings">
+              <PropertyRef Name="BookingId" />
+            </Principal>
+            <Dependent Role="BookingDetails">
+              <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BookingDetails_Fees">
+          <End Role="Fees" Type="Self.Fees" Multiplicity="0..1" />
+          <End Role="BookingDetails" Type="Self.BookingDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fees">
+              <PropertyRef Name="FeeId" />
+            </Principal>
+            <Dependent Role="BookingDetails">
+              <PropertyRef Name="FeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TravelExpertsModelStoreContainer">
+          <EntitySet Name="BookingDetails" EntityType="Self.BookingDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bookings" EntityType="Self.Bookings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fees" EntityType="Self.Fees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Packages" EntityType="Self.Packages" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Bookings_FK00" Association="Self.Bookings_FK00">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="Bookings_FK01" Association="Self.Bookings_FK01">
+            <End Role="Packages" EntitySet="Packages" />
+            <End Role="Bookings" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingDetails_Bookings" Association="Self.FK_BookingDetails_Bookings">
+            <End Role="Bookings" EntitySet="Bookings" />
+            <End Role="BookingDetails" EntitySet="BookingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BookingDetails_Fees" Association="Self.FK_BookingDetails_Fees">
+            <End Role="Fees" EntitySet="Fees" />
+            <End Role="BookingDetails" EntitySet="BookingDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TravelExpertsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustFirstName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustLastName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustAddress" Type="String" MaxLength="75" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustCity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustProv" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustPostal" Type="String" MaxLength="7" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustCountry" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="CustHomePhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CustBusPhone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AgentId" Type="Int32" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bookings" Relationship="TravelExpertsModel.Bookings_FK00" FromRole="Customer" ToRole="Booking" />
+        </EntityType>
+        <EntityContainer Name="TravelExpertsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="BookingDetails" EntityType="TravelExpertsModel.BookingDetail" />
+          <EntitySet Name="Bookings" EntityType="TravelExpertsModel.Booking" />
+          <EntitySet Name="Packages" EntityType="TravelExpertsModel.Package" />
+          <AssociationSet Name="FK_BookingDetails_Bookings" Association="TravelExpertsModel.FK_BookingDetails_Bookings">
+            <End Role="Booking" EntitySet="Bookings" />
+            <End Role="BookingDetail" EntitySet="BookingDetails" />
+          </AssociationSet>
+          <AssociationSet Name="Bookings_FK00" Association="TravelExpertsModel.Bookings_FK00">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="Bookings_FK01" Association="TravelExpertsModel.Bookings_FK01">
+            <End Role="Package" EntitySet="Packages" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <EntitySet Name="Fees" EntityType="TravelExpertsModel.Fee" />
+          <AssociationSet Name="FK_BookingDetails_Fees" Association="TravelExpertsModel.FK_BookingDetails_Fees">
+            <End Role="Fee" EntitySet="Fees" />
+            <End Role="BookingDetail" EntitySet="BookingDetails" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="BookingDetail">
+          <Key>
+            <PropertyRef Name="BookingDetailId" />
+          </Key>
+          <Property Name="BookingDetailId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItineraryNo" Type="Double" />
+          <Property Name="TripStart" Type="DateTime" Precision="3" />
+          <Property Name="TripEnd" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Destination" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="BasePrice" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AgencyCommission" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="BookingId" Type="Int32" />
+          <Property Name="RegionId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="ClassId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="FeeId" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ProductSupplierId" Type="Int32" />
+          <NavigationProperty Name="Booking" Relationship="TravelExpertsModel.FK_BookingDetails_Bookings" FromRole="BookingDetail" ToRole="Booking" />
+          <NavigationProperty Name="Fee" Relationship="TravelExpertsModel.FK_BookingDetails_Fees" FromRole="BookingDetail" ToRole="Fee" />
+        </EntityType>
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="BookingId" />
+          </Key>
+          <Property Name="BookingId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BookingDate" Type="DateTime" Precision="3" />
+          <Property Name="BookingNo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TravelerCount" Type="Double" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="TripTypeId" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="PackageId" Type="Int32" />
+          <NavigationProperty Name="BookingDetails" Relationship="TravelExpertsModel.FK_BookingDetails_Bookings" FromRole="Booking" ToRole="BookingDetail" />
+          <NavigationProperty Name="Customer" Relationship="TravelExpertsModel.Bookings_FK00" FromRole="Booking" ToRole="Customer" />
+          <NavigationProperty Name="Package" Relationship="TravelExpertsModel.Bookings_FK01" FromRole="Booking" ToRole="Package" />
+        </EntityType>
+        <EntityType Name="Package">
+          <Key>
+            <PropertyRef Name="PackageId" />
+          </Key>
+          <Property Name="PackageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PkgName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PkgStartDate" Type="DateTime" Precision="3" />
+          <Property Name="PkgEndDate" Type="DateTime" Precision="3" />
+          <Property Name="PkgDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PkgBasePrice" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="PkgAgencyCommission" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Bookings" Relationship="TravelExpertsModel.Bookings_FK01" FromRole="Package" ToRole="Booking" />
+        </EntityType>
+        <Association Name="FK_BookingDetails_Bookings">
+          <End Type="TravelExpertsModel.Booking" Role="Booking" Multiplicity="0..1" />
+          <End Type="TravelExpertsModel.BookingDetail" Role="BookingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Booking">
+              <PropertyRef Name="BookingId" />
+            </Principal>
+            <Dependent Role="BookingDetail">
+              <PropertyRef Name="BookingId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bookings_FK00">
+          <End Type="TravelExpertsModel.Customer" Role="Customer" Multiplicity="0..1" />
+          <End Type="TravelExpertsModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Bookings_FK01">
+          <End Type="TravelExpertsModel.Package" Role="Package" Multiplicity="0..1" />
+          <End Type="TravelExpertsModel.Booking" Role="Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Package">
+              <PropertyRef Name="PackageId" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="PackageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Fee">
+          <Key>
+            <PropertyRef Name="FeeId" />
+          </Key>
+          <Property Name="FeeId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="FeeName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FeeAmt" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="FeeDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BookingDetails" Relationship="TravelExpertsModel.FK_BookingDetails_Fees" FromRole="Fee" ToRole="BookingDetail" />
+        </EntityType>
+        <Association Name="FK_BookingDetails_Fees">
+          <End Type="TravelExpertsModel.Fee" Role="Fee" Multiplicity="0..1" />
+          <End Type="TravelExpertsModel.BookingDetail" Role="BookingDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fee">
+              <PropertyRef Name="FeeId" />
+            </Principal>
+            <Dependent Role="BookingDetail">
+              <PropertyRef Name="FeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TravelExpertsModelStoreContainer" CdmEntityContainer="TravelExpertsEntities">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="TravelExpertsModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CustFirstName" ColumnName="CustFirstName" />
+                <ScalarProperty Name="CustLastName" ColumnName="CustLastName" />
+                <ScalarProperty Name="CustAddress" ColumnName="CustAddress" />
+                <ScalarProperty Name="CustCity" ColumnName="CustCity" />
+                <ScalarProperty Name="CustProv" ColumnName="CustProv" />
+                <ScalarProperty Name="CustPostal" ColumnName="CustPostal" />
+                <ScalarProperty Name="CustCountry" ColumnName="CustCountry" />
+                <ScalarProperty Name="CustHomePhone" ColumnName="CustHomePhone" />
+                <ScalarProperty Name="CustBusPhone" ColumnName="CustBusPhone" />
+                <ScalarProperty Name="CustEmail" ColumnName="CustEmail" />
+                <ScalarProperty Name="AgentId" ColumnName="AgentId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BookingDetails">
+            <EntityTypeMapping TypeName="TravelExpertsModel.BookingDetail">
+              <MappingFragment StoreEntitySet="BookingDetails">
+                <ScalarProperty Name="ProductSupplierId" ColumnName="ProductSupplierId" />
+                <ScalarProperty Name="FeeId" ColumnName="FeeId" />
+                <ScalarProperty Name="ClassId" ColumnName="ClassId" />
+                <ScalarProperty Name="RegionId" ColumnName="RegionId" />
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+                <ScalarProperty Name="AgencyCommission" ColumnName="AgencyCommission" />
+                <ScalarProperty Name="BasePrice" ColumnName="BasePrice" />
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TripEnd" ColumnName="TripEnd" />
+                <ScalarProperty Name="TripStart" ColumnName="TripStart" />
+                <ScalarProperty Name="ItineraryNo" ColumnName="ItineraryNo" />
+                <ScalarProperty Name="BookingDetailId" ColumnName="BookingDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="TravelExpertsModel.Booking">
+              <MappingFragment StoreEntitySet="Bookings">
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+                <ScalarProperty Name="TripTypeId" ColumnName="TripTypeId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="TravelerCount" ColumnName="TravelerCount" />
+                <ScalarProperty Name="BookingNo" ColumnName="BookingNo" />
+                <ScalarProperty Name="BookingDate" ColumnName="BookingDate" />
+                <ScalarProperty Name="BookingId" ColumnName="BookingId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Packages">
+            <EntityTypeMapping TypeName="TravelExpertsModel.Package">
+              <MappingFragment StoreEntitySet="Packages">
+                <ScalarProperty Name="PkgAgencyCommission" ColumnName="PkgAgencyCommission" />
+                <ScalarProperty Name="PkgBasePrice" ColumnName="PkgBasePrice" />
+                <ScalarProperty Name="PkgDesc" ColumnName="PkgDesc" />
+                <ScalarProperty Name="PkgEndDate" ColumnName="PkgEndDate" />
+                <ScalarProperty Name="PkgStartDate" ColumnName="PkgStartDate" />
+                <ScalarProperty Name="PkgName" ColumnName="PkgName" />
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fees">
+            <EntityTypeMapping TypeName="TravelExpertsModel.Fee">
+              <MappingFragment StoreEntitySet="Fees">
+                <ScalarProperty Name="FeeDesc" ColumnName="FeeDesc" />
+                <ScalarProperty Name="FeeAmt" ColumnName="FeeAmt" />
+                <ScalarProperty Name="FeeName" ColumnName="FeeName" />
+                <ScalarProperty Name="FeeId" ColumnName="FeeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

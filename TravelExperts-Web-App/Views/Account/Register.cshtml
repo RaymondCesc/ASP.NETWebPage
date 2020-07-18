@@ -1,0 +1,117 @@
+﻿@model TravelExperts_Web_App.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<!--
+    Register page
+  
+-->
+<div class="container registration">
+    <h1 class="well">Registration </h1>
+    <div class="col-lg-12 well">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="col-sm-12">
+                <div class="row">
+                    @* First Name *@
+                    <div class="col-sm-6 form-group">
+                        @Html.LabelFor(model => model.CustFirstName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.CustFirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CustFirstName, "", new { @class = "text-danger" })
+                    </div>
+                    @* Last Name *@
+                    <div class="col-sm-6 form-group">
+                        @Html.LabelFor(model => model.CustLastName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.CustLastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CustLastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        @Html.LabelFor(model => model.CustAddress, htmlAttributes: new { @class = "control-label " })
+                        @Html.EditorFor(model => model.CustAddress, new { htmlAttributes = new { @class = "form-control " } })
+                        @Html.ValidationMessageFor(model => model.CustAddress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @* Address *@
+
+                <div class="row">
+                    @* City *@
+                    <div class="col-sm-6 form-group">
+                        @Html.LabelFor(model => model.CustCity, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.CustCity, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CustCity, "", new { @class = "text-danger" })
+                    </div>
+                    @* Province *@
+                    <div class="col-sm-6 form-group">
+                        @Html.LabelFor(model => model.CustProv, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.CustProv, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CustProv, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @* Postal Code *@
+                    <div class="col-sm-6 form-group">
+                        @Html.LabelFor(model => model.CustPostal, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.CustPostal, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CustPostal, "", new { @class = "text-danger" })
+                    </div>
+                    @* Country *@
+                    <div class="col-sm-6 form-group">
+                        @Html.LabelFor(model => model.CustCountry, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.CustCountry, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CustCountry, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    @* Home Phone *@
+                    <div class="col-sm-6 form-group">
+                        @Html.LabelFor(model => model.CustHomePhone, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.CustHomePhone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CustHomePhone, "", new { @class = "text-danger" })
+                    </div>
+                    @* Business Phone *@
+                    <div class="col-sm-6 form-group">
+                        @Html.LabelFor(model => model.CustBusPhone, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.CustBusPhone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CustBusPhone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @* Email *@
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CustEmail, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.CustEmail, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CustEmail, "", new { @class = "text-danger" })
+                </div>
+                @* User name *@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                </div>
+                <div class="row">
+                    @* Password *@
+                    <div class="col-sm-6 form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    </div>
+                    @* Confirm password *@
+                    <div class="col-sm-6 form-group">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row">
+                    <input type="submit" class="btn btn-success btn-log-reg" value="Register" />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,149 @@
+﻿@model TravelExperts_Web_App.Models.BookingDetailsViewModel
+
+@{
+    ViewBag.Title = "BookingDetails";
+}
+
+<!--
+    Details of a booking page
+    Author - harry
+-->
+
+<h2 class="text-alicblue">@ViewBag.BookingNo: Booking Details</h2>
+
+<div class="container">
+    <hr />
+    @{
+        // booking details can be null
+        if (Model.Details.Count == 0)
+        {
+            <h3 class="text-alicblue">Sorry we couldn't find any info on this booking. Please contact your agency.</h3>
+        }
+        else { 
+
+            int curr = 0;
+            foreach (BookingDetail detail in Model.Details)
+            {
+                <!-- details -->
+                <div class="panel panel-info col-md-6 booking-panels">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">Trip to @detail.Destination</h1>
+                    </div>
+                    <div class="panel-body">
+                        <!-- description -->
+                        <div class="row">
+                            <label class="col-md-6" id="bookingLabelFor">Description</label>
+                            @{
+                                // check if null
+                                if (detail.Description == null)
+                                {
+                                    <label class="col-md-6" id="manageData">No info</label>
+                                }
+                                else
+                                {
+                                    @Html.Label(detail.Description, null, new { @class = "col-md-6", @id = "manageData" })
+                                }
+                            }
+                        </div>
+                        <!-- destination -->
+                        <div class="row">
+                            <label class="col-md-6" id="bookingLabelFor">Destination</label>
+                            @{
+                                // check if null
+                                if (detail.Destination == null)
+                                {
+                                    <label class="col-md-6" id="manageData">No info</label>
+                                }
+                                else
+                                {
+                                    @Html.Label(detail.Destination, null, new { @class = "col-md-6", @id = "manageData" })
+                                }
+                            }
+                        </div>
+                        <!-- trip start -->
+                        <div class="row">
+                            <label class="col-md-6" id="bookingLabelFor">Trip Start</label>
+                            @{
+                                // check if null
+                                if (Model.Details[curr].TripStart == null)
+                                {
+                                    <label class="col-md-6" id="manageData">No info</label>
+                                }
+                                else
+                                {
+                                    <label id="manageData" class="col-md-6">@Html.DisplayFor(m => m.Details[curr].TripStart)</label>
+                                }
+                            }
+                        </div>
+                        <!-- trip end -->
+                        <div class="row">
+                            <label class="col-md-6" id="bookingLabelFor">Trip End</label>
+                            @{
+                                // check if null
+                                if (Model.Details[curr].TripEnd == null)
+                                {
+                                    <label class="col-md-6" id="manageData">No info</label>
+                                }
+                                else
+                                {
+                                    <label id="manageData" class="col-md-6">@Html.DisplayFor(m => m.Details[curr].TripEnd)</label>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- fees -->
+                <div class="panel panel-info col-md-6 booking-panels">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">@detail.Destination Fees</h1>
+                    </div>
+                    <div class="panel-body">
+                        <!-- base price -->
+                        <div class="row">
+                            <label class="col-md-6" id="bookingLabelFor">Price</label>
+                            @{
+                                // check if null
+                                if (Model.Details[curr].BasePrice == null)
+                                {
+                                    <label class="col-md-6" id="manageData">No info</label>
+                                }
+                                else
+                                {
+                                    <label id="manageData" class="col-md-6">@Html.DisplayFor(m => m.Details[curr].BasePrice)</label>
+                                }
+                            }
+                        </div>
+                        <!-- fee name and amount-->
+                        <div class="row">
+                            <label class="col-md-6" id="bookingLabelFor">@Model.Fees[curr].FeeName</label>
+                            <label id="manageData" class="col-md-6">@Html.DisplayFor(m => m.Fees[curr].FeeAmt)</label>
+                        </div>
+                        <div class="row">
+                            <!-- fee description -->
+                            @{
+                                // check if null
+                                if (Model.Fees[curr].FeeDesc != null)
+                                {
+                                    @Html.Label(Model.Fees[curr].FeeDesc, null, new { @class = "col-md-6", @id = "manageData" })
+                                }
+                            }
+                        </div>
+                        <div class="row">
+                            <label class="col-md-6" id="bookingLabelFor">Total Owing</label>
+                            @{
+                                Model.TotalOwing = detail.BasePrice + Model.Fees[curr].FeeAmt;
+                                curr++;
+                            }
+                            <label id="manageData" class="col-md-6">@Html.DisplayFor(m => m.TotalOwing)</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                </div>
+            }
+        }
+    }
+</div>
+<p>
+    @Html.ActionLink("Back to Account", "Index")
+</p>
